@@ -3,6 +3,7 @@
 #to set a new one: setwd(~/path)
 
 library(caret)
+install.packages("AppliedPredictiveModeling", repos="http://R-Forge.R-project.org")
 
 filename <- "iris.csv"
 
@@ -44,3 +45,38 @@ levels(dataset$Species)
 percentage <- prop.table(table(dataset$Species)) * 100
 cbind(frec=table(dataset$Species), percentage=percentage)
 
+#summary of attributes
+summary(dataset)
+
+# univariate Plots :D 
+x <- dataset[,1:4]
+y <- dataset[,5]
+
+# boxplot for each attribute
+ par(mfrow=c(1,4))
+     for(i in 1:4) {
+         boxplot(x[,i], main=names(iris)[i])
+     }
+ 
+ # barplot for only Species class variable: graphical representation of the class distribution (in this case they're even, but the knowledge is worth it)
+ plot(y)
+ 
+ ##------ MULTIVARIATE PLOTS :D ------##
+ 
+ #scatter plot of all pairs of attributes (color points by class). Also drawing ellipses around them
+ 
+# scatter plot matrix
+# featurePlot(x=x, y=y, plot="ellipse") not working.
+#> featurePlot(x = iris[1:4], 
+#                 +             y = iris$Sepal.Length,
+#               +             plot = "density", 
+#               +             scales = list(x = list(relation="free"),                                           +                           y = list(relation="free")),
+#               +             auto.key = list(columns = 3))
+ # ERROR:
+ # Error in stack.data.frame(x) : no vector columns were selected
+
+ 
+ scales <- list(x=list(relation="free"), y=list(relation="free"))
+ featurePlot(x=x, y=y, plot="density", scales=scales)
+ 
+ # featurePlot not working
